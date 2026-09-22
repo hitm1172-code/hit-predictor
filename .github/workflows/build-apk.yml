@@ -1,0 +1,49 @@
+name: Build Hit Predictor APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract project
+        run: |
+          unzip -o Hit_Predictor_Advanced.zip -d project
+          cd project/hit_predictor_advanced
+          flutter_version="stable"
+          echo "Project extracted"
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Create Android project files
+        working-directory: project/hit_predictor_advanced
+        run: |
+          flutter create . --platforms=android
+
+      - name: Install dependencies
+        working-directory: project/hit_predictor_advanced
+        run: |
+          flutter pub get
+
+      - name: Build APK
+        working-directory: project/hit_predictor_advanced
+        run: |
+          flutter build apk --release
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Hit-Predictor-APK
+          path: project/hit_predictor_advanced/build/app/outputs/flutter-apk/app-release.apk
