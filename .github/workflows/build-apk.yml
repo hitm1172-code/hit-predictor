@@ -16,7 +16,7 @@ jobs:
 
       - name: Extract project
         run: |
-          unzip -o Hit_Predictor_Advanced.zip -d project
+          unzip -o Hit_Predictor_Advanced_FIXED.zip -d project
           cd project/hit_predictor_advanced
           flutter_version="stable"
           echo "Project extracted"
