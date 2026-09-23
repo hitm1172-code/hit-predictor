@@ -32,6 +32,11 @@ jobs:
         run: |
           flutter create . --platforms=android
 
+      - name: Add Internet permission
+        working-directory: project/hit_predictor_advanced
+        run: |
+          sed -i '/<manifest /a\    <uses-permission android:name="android.permission.INTERNET"/>' android/app/src/main/AndroidManifest.xml
+
       - name: Install dependencies
         working-directory: project/hit_predictor_advanced
         run: |
